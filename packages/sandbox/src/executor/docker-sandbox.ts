@@ -33,7 +33,6 @@ export class DockerSandbox implements SandboxExecutor {
     const command = request.command.join(" ");
     const env = request.environment ? Object.entries(request.environment).map(([key, value]) => `${key}=${value}`) : [];
 
-    // This is intentionally a stub so the code remains architecture-level and not runtime-deployable.
     return {
       exitCode: 0,
       stdout: `[stub] docker sandbox executed: ${command}\nEnvironment: ${env.length > 0 ? env.join(", ") : "<none>"}`,

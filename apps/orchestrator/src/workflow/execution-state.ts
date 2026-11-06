@@ -12,10 +12,7 @@ export class ExecutionStateTracker {
   private readonly states = new Map<string, ExecutionState>();
 
   markStarted(taskId: string): ExecutionState {
-    const existing = this.states.get(taskId) ?? {
-      status: "pending",
-      attempts: 0,
-    };
+    const existing = this.states.get(taskId) ?? { status: "pending", attempts: 0 };
     const next: ExecutionState = {
       status: "running",
       attempts: existing.attempts + 1,

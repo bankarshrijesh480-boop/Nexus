@@ -1,5 +1,5 @@
-import type { TaskDefinition, TaskPlan } from "./task.js";
-import type { GoalDefinition } from "./goal.js";
+import type { GoalDefinition } from "../../../../packages/agent-sdk/src/contracts/goal.js";
+import type { TaskDefinition, TaskPlan } from "../../../../packages/agent-sdk/src/contracts/task.js";
 
 /**
  * Parses a raw issue or goal statement into a dependency-aware task plan.
@@ -11,16 +11,12 @@ export class GoalParser {
     const normalized = goal.description.trim();
     const tasks: TaskDefinition[] = [];
 
-    const repositoryNames = goal.repositories.length > 0
-      ? goal.repositories
-      : ["shared-repo"];
-
+    const repositoryNames = goal.repositories.length > 0 ? goal.repositories : ["shared-repo"];
     const discoveredActions = this.extractActions(normalized);
+
     for (let index = 0; index < discoveredActions.length; index += 1) {
       const action = discoveredActions[index]!;
-      const dependsOn = discoveredActions
-        .slice(0, index)
-        .map((item) => item.id);
+      const dependsOn = discoveredActions.slice(0, index).map((item) => item.id);
 
       tasks.push({
         id: action.id,
@@ -54,7 +50,9 @@ export class GoalParser {
     };
   }
 
-  private extractActions(text: string): Array<{ id: string; description: string; agentId: string }> {
+  private extractActions(
+    text: string,
+  ): Array<{ id: string; description: string; agentId: string }> {
     const actionMap = [
       {
         keyword: /dependency|bump|upgrade|version/i,
